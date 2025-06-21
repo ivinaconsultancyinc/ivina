@@ -1,6 +1,6 @@
-from flask import Flask, request, redirect, url_for, render_template, session
+ from flask import Flask, request, redirect, url_for, render_template, session
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 import os
 
@@ -16,6 +16,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(150), nullable=True, unique=True)
 
 @app.route('/')
 def index():
@@ -36,6 +37,30 @@ def login():
             return redirect(url_for('dashboard'))
         return 'Invalid credentials'
     return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form.get('email')
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+
+        if password != confirm_password:
+            return 'Passwords do not match!'
+
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            return 'Username already exists!'
+
+        hashed_password = generate_password_hash(password)
+        new_user = User(username=username, password=hashed_password, email=email)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return redirect(url_for('login'))
+
+    return render_template('register.html')
 
 @app.route('/dashboard')
 def dashboard():
@@ -62,21 +87,14 @@ def upload_file():
     '''
 
 def create_app():
-    """Application factory pattern for better deployment"""
-    # Create upload directory
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-    
-    # Initialize database
     with app.app_context():
         db.create_all()
-    
     return app
 
 if __name__ == '__main__':
-    # This block runs only in development
     create_app()
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
 else:
-    # This runs when deployed (imported by Gunicorn)
     app = create_app()
