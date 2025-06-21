@@ -80,7 +80,3 @@ if __name__ == '__main__':
 else:
     # This runs when deployed (imported by Gunicorn)
     app = create_app()
-
-
-
-
