@@ -1,13 +1,12 @@
+
 services:
   - type: web
-    name: flask-app
+    name: actuarial-calculators
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn 'from_flask_import_Flask:create_app()'
+    startCommand: gunicorn app_updated:app
     envVars:
       - key: SECRET_KEY
         value: your_secret_key_change_in_production
       - key: DATABASE_URL
         value: sqlite:///users.db
-    autoDeploy: true
-
