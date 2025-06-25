@@ -291,14 +291,14 @@ def forecast():
     data = forecasting.simulate_historical_policy_data()
     model, forecast = forecasting.forecast_cash_flows(data)
     forecasting.plot_forecast(model, forecast)
-    return 'Forecast generated'
+    return render_template('forecast.html')
 
 @app.route('/reserves')
 def calculate_reserves():
     dates, cash_flows = reserves.simulate_policy_data()
     reserve_values = reserves.calculate_reserves(dates, cash_flows, 0.03)
     reserves.plot_reserves(dates, reserve_values)
-    return 'Reserves calculated'
+    return render_template('reserves.html')
 
 @app.route('/mortality_lapse')
 def mortality_lapse_model():
@@ -307,10 +307,10 @@ def mortality_lapse_model():
     lapse_model = mortality_lapse.train_lapse_model(data)
     predictions = mortality_lapse.predict_mortality_lapse(data, mortality_model, lapse_model)
     mortality_lapse.plot_mortality_lapse(predictions)
-    return 'Mortality and lapse predictions generated'
+    return render_template('mortality_lapse.html')
 
 @app.route('/esg')
 def economic_scenarios():
     data = esg.simulate_economic_scenarios()
     esg.plot_economic_scenarios(data)
-    return 'Economic scenarios simulated'
+    return render_template('esg.html')
