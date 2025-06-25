@@ -1,3 +1,8 @@
+import forecasting
+import reserves
+import mortality_lapse
+import esg
+
 from flask import Flask, request, redirect, url_for, render_template, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -280,3 +285,32 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port, debug=False)
 else:
     app = create_app()
+
+@app.route('/forecast')
+def forecast():
+    data = forecasting.simulate_historical_policy_data()
+    model, forecast = forecasting.forecast_cash_flows(data)
+    forecasting.plot_forecast(model, forecast)
+    return 'Forecast generated'
+
+@app.route('/reserves')
+def calculate_reserves():
+    dates, cash_flows = reserves.simulate_policy_data()
+    reserve_values = reserves.calculate_reserves(dates, cash_flows, 0.03)
+    reserves.plot_reserves(dates, reserve_values)
+    return 'Reserves calculated'
+
+@app.route('/mortality_lapse')
+def mortality_lapse_model():
+    data = mortality_lapse.simulate_mortality_lapse_data()
+    mortality_model = mortality_lapse.train_mortality_model(data)
+    lapse_model = mortality_lapse.train_lapse_model(data)
+    predictions = mortality_lapse.predict_mortality_lapse(data, mortality_model, lapse_model)
+    mortality_lapse.plot_mortality_lapse(predictions)
+    return 'Mortality and lapse predictions generated'
+
+@app.route('/esg')
+def economic_scenarios():
+    data = esg.simulate_economic_scenarios()
+    esg.plot_economic_scenarios(data)
+    return 'Economic scenarios simulated'
