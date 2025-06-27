@@ -1,12 +1,11 @@
-
 services:
- - type: web
-   name: actuarial-calculators
-   env: python
-   buildCommand: pip install -r requirements.txt
-   startCommand: gunicorn app:app
-   envVars:
-   - key: SECRET_KEY
-     value: your_secret_key_change_in_production
-   - key: DATABASE_URL
-     value: sqlite:///users.db
+  - type: web
+    name: actuarial-calculators
+    env: python
+    buildCommand: pip install -r requirements 6.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        value: your_secret_key_change_in_production
+      - key: DATABASE_URL
+        value: sqlite:///users.db
