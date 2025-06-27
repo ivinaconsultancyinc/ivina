@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Valuation Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #0779e4 3px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+        header li {
+            float: left;
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+        }
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        .content {
+            padding: 20px;
+            background: #fff;
+            margin-top: 20px;
+        }
+        .content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+        .content h2 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Insurance Valuation Results</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/insurance_valuation">Insurance Valuation</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="content">
+            <h2>Historical Insurance Claims</h2>
+            <img src="{{ url_for('static', filename=images[0]) }}" alt="Historical Claims">
+            <h2>Risk Scores Over Time</h2>
+            <img src="{{ url_for('static', filename=images[1]) }}" alt="Risk Scores">
+            <h2>Premiums Over Time</h2>
+            <img src="{{ url_for('static', filename=images[2]) }}" alt="Premiums">
+            <h2>Forecast of Future Insurance Claims</h2>
+            <img src="{{ url_for('static', filename=images[3]) }}" alt="Forecast">
+            <h2>Forecast Components</h2>
+            <img src="{{ url_for('static', filename=images[4]) }}" alt="Forecast Components">
+        </div>
+    </div>
+</body>
+</html>
