@@ -18,5 +18,6 @@ XlsxWriter==3.2.0
 prophet
 scikit-learn
 matplotlib
+gunicorn
 
 
