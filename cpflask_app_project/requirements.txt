@@ -19,5 +19,6 @@ prophet
 scikit-learn
 matplotlib
 gunicorn
+plotly
 
 
